@@ -1,7 +1,11 @@
 from board import Board
 
-board = Board(5, 5)
+rows = int(input("Enter number of rows: "))
+columns = int(input("Enter number of columns: "))
+board = Board(rows, columns)
 board.generate_random()
-print(board)
-board.update()
-print(board)
+user_input = ''
+while user_input != 'q':
+    print(board)
+    board.update()
+    user_input = str(input("Press enter to continue or q to quit"))
