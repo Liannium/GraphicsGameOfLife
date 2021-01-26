@@ -46,15 +46,30 @@ class Board:
             # if cell that would be checked is outside the board, checks the cell on the opposite side of the board
             if i == -1:
                 i = self._rows - 1
-            elif i == (self._rows + 1):
+            elif i == self._rows:
                 i = 0
             for j in range(column - 1, column + 2):
                 if j == -1:
                     j = self._columns - 1
-                elif j == (self._columns + 1):
+                elif j == self._columns:
                     j = 0
                 if i != row or j != column:
                     if self._grid[i][j].alive:
                         liveNeighbors += 1
         return liveNeighbors
 
+    def update(self):
+        new_alive = []
+        new_dead = []
+        for i in range(0, self._rows):
+            for j in range(0, self._columns):
+                current_cell = self._grid[i][j]
+                live_neighbors = self._check_cell_neighbor(i, j)
+                if current_cell.should_survive(live_neighbors) and not current_cell.alive:
+                    new_alive.append(current_cell)
+                elif not current_cell.should_survive(live_neighbors) and current_cell.alive:
+                    new_dead.append(current_cell)
+        for i in range(0, len(new_alive)):
+            new_alive[i].alive = True
+        for i in range(0, len(new_dead)):
+            new_dead[i].alive = False

@@ -13,3 +13,12 @@ class Cell:
             return "\u2588 "
         else:
             return "  "
+
+    def should_survive(self, live_neighbors: int) -> bool:
+        if self.alive:
+            if live_neighbors < 2 or live_neighbors > 3:
+                return False
+        elif not self.alive:
+            if live_neighbors == 3:
+                return True
+        return self.alive
